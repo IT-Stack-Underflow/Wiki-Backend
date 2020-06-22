@@ -18,6 +18,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 @PropertySource("classpath:/application.properties")
 public class DatabaseConfiguration {
+	
 	@Autowired
 	private ApplicationContext applicationContext;
 	
@@ -28,29 +29,30 @@ public class DatabaseConfiguration {
 	}
 	
 	@Bean
+	@ConfigurationProperties(prefix="mybatis.configuration")
+	public org.apache.ibatis.session.Configuration mybatisConfig(){
+		return new org.apache.ibatis.session.Configuration(); 
+	}
+	
+	@Bean
 	public DataSource dataSource() throws Exception{
 		DataSource dataSource = new HikariDataSource(hikariConfig());
 		System.out.println(dataSource.toString());
 		return dataSource;
 	}
-
+	
 	@Bean
-	public SqlSessionFactory sqlSessionFectory(DataSource dataSource) throws Exception{
+	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception{
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(dataSource);
 		sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/mapper/**/*.xml"));
 		sqlSessionFactoryBean.setConfiguration(mybatisConfig());
+		
 		return sqlSessionFactoryBean.getObject();
 	}
 	
 	@Bean
-	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
+	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory){
 		return new SqlSessionTemplate(sqlSessionFactory);
-	}
-	
-	@Bean
-	@ConfigurationProperties(prefix="mybatis.configuration")
-	public org.apache.ibatis.session.Configuration mybatisConfig(){
-		return new org.apache.ibatis.session.Configuration();
 	}
 }

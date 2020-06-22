@@ -7,7 +7,7 @@
 			SELECT
 				wiki_id, wiki_title, wiki_create, wiki_modify, wiki_count, wiki_hidden, wiki_parent, wiki_current, wiki_short
 			FROM 
-				WIKI
+				wiki
 		]]>
 	</select>
 </mapper>
