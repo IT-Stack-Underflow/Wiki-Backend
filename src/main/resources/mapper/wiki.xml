@@ -1,1 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itstackunderflow.wiki.wiki.mapper.WikiMapper">
+	<select id="selectTest" resultType="com.itstackunderflow.wiki.wiki.dto.WikiDto">
+		<![CDATA[
+			SELECT
+				wiki_id, wiki_title, wiki_create, wiki_modify, wiki_count, wiki_hidden, wiki_parent, wiki_current, wiki_short
+			FROM 
+				WIKI
+		]]>
+	</select>
+</mapper>
